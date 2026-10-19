@@ -609,7 +609,7 @@ async function createList() {
     const matches = registered.filter(match => withinSelectedWindow(match, $('#timeInput').value));
 
     if (!matches.length) {
-      updatedEl.textContent = `Last updated, ${new Date().toLocaleString()}`;
+      updatedEl.textContent = `Last updated ${new Date().toLocaleDateString()}`;
       return;
     }
 
@@ -640,7 +640,7 @@ async function createList() {
     if (!leagues.length) leagueContainer.textContent = 'No league matches currently have a player deficit.';
     if (!friendlies.length) friendlyContainer.textContent = 'No friendly matches currently have a player deficit.';
 
-    updatedEl.textContent = `Last updated, ${new Date().toLocaleString()}`;
+    updatedEl.textContent = `Last updated ${new Date().toLocaleDateString()}`;
     if (errors.length) {
       const note = document.createElement('p');
       note.style.cssText = 'color:rgba(255,255,255,.65);font-size:12px;';

@@ -555,13 +555,22 @@ async function inspectMatch(match, slug) {
   const awayElo = averageElo(awayPlayers);
 
   const league = isLeagueMatch(match.name || detail.name);
-  const targetRatio = league ? 1.15 : 1.05;
-  const targetPlayers = Math.ceil(awayPlayers.length * targetRatio);
-  const deficit = Math.max(0, targetPlayers - homePlayers.length);
-  const eloDeficit = false;
-  const eloRecruitment = { count: 0, label: 'Elo is informational only' };
-  const totalNeeded = deficit;
-  if (deficit <= 0) return null;
+const targetRatio = league ? 1.15 : 1.05;
+
+const settings = detail.settings || match.settings || {};
+const minimumPlayers = Number(settings.min_team_players) || 0;
+
+const targetPlayers = Math.max(
+    Math.ceil(awayPlayers.length * targetRatio),
+    minimumPlayers
+);
+
+const deficit = Math.max(0, targetPlayers - homePlayers.length);
+const eloDeficit = false;
+const eloRecruitment = { count: 0, label: 'Elo is informational only' };
+const totalNeeded = deficit;
+
+if (deficit <= 0) return null;
 
   const opponentUrl = getTeamClubUrl(awayEntry[1]) || match.opponent || '';
   let opponentName = awayEntry[1].name || cleanClubName(opponentUrl);
